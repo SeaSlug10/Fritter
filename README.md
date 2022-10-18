@@ -392,3 +392,38 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `400` if `username` is not given
 - `404` if `name` is not a recognized name of any community
+
+#### `PUT /api/ratings/:freetId?` - Update a post's rating
+
+**Body** 
+
+- `username` _{string}_ - The username of the user rating
+- `upvote` _{boolean}_ - True if upvoting, false if downvoting
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `GET /api/ratings/:freetId?` - Get a post's rating
+
+**Returns**
+
+- An array of freets by users who `username` is friends with
+
+**Throws**
+
+- `400` if `freetId` is not given
+
+#### `GET /api/feed/:userId?` - Get feed of posts for user
+
+**Returns**
+
+- An array of freets comprising the feed for the user
+
+**Throws**
+
+- `400` if `freetId` is not given
