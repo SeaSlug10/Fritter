@@ -3,3 +3,9 @@ function createCommunity(fields) {
       .then(showResponse)
       .catch(showResponse);
   }
+
+function deleteCommunity(fields) {
+  fetch(`/api/communities/${fields.id}`, {method: 'DELETE'})
+    .then(showResponse)
+    .catch(showResponse)
+}

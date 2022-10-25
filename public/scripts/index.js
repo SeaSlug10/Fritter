@@ -39,7 +39,8 @@ const formsAndHandlers = {
   'create-freet': createFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
-  'create-community' : createCommunity
+  'create-community' : createCommunity,
+  'delete-community' : deleteCommunity
 };
 
 // Attach handlers to forms

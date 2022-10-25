@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
+  <script src="/scripts/community.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -93,6 +94,10 @@
             <label for="content">Content:</label>
             <textarea id="content" name="content"></textarea>
           </div>
+          <div>
+            <input type="checkbox" id="anonymous" name="anonymous">
+            <label for="anonymous">Anonymize?</label>
+          </div>
           <input type="submit" value="Create Freet">
         </form>
 
@@ -126,6 +131,16 @@
           </div>
           <input type="submit" value="Create Community">
         </form>
+
+        <form id="delete-community">
+          <h3>Delete Community</h3>
+          <div>
+            <label for="id">ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Community">
+        </form>
+
       </div>
     </section>
     <section>

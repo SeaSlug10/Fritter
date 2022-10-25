@@ -56,3 +56,5 @@ router.delete(
         })
     }
 )
+
+export {router as communityRouter};
