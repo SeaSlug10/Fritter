@@ -329,7 +329,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `409` if the community name already exists 
 
-#### `DELETE /api/communities ` - Delete community
+#### `DELETE /api/communities/:commId? ` - Delete community
 
 **Returns**
 
