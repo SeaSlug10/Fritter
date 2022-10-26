@@ -10,6 +10,8 @@ type FreetResponse = {
   content: string;
   dateModified: string;
   anonymous: string;
+  upvoters: [string];
+  downvoters: [string];
 };
 
 /**
@@ -35,15 +37,32 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
   };
   const {username} = freetCopy.authorId;
   const anon = freetCopy.anonymous;
+  const upvoted = freetCopy.upvoters;
+  const downvoted = freetCopy.downvoters;
   delete freetCopy.authorId;
+  if (anon === "on"){
+    return {
+      ...freetCopy,
+      _id: freetCopy._id.toString(),
+      author: "Anonymous",
+      dateCreated: formatDate(freet.dateCreated),
+      dateModified: formatDate(freet.dateModified),
+      anonymous: anon,
+      upvoters: upvoted,
+      downvoters: downvoted
+    };
+  }
   return {
     ...freetCopy,
     _id: freetCopy._id.toString(),
     author: username,
     dateCreated: formatDate(freet.dateCreated),
     dateModified: formatDate(freet.dateModified),
-    anonymous: anon
+    anonymous: anon,
+    upvoters: upvoted,
+    downvoters: downvoted
   };
+
 };
 
 export {

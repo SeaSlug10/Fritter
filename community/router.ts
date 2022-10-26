@@ -3,6 +3,7 @@ import express from 'express';
 import * as userValidator from '../user/middleware';
 import CommunityCollection from './collection';
 import * as commValidator from '../community/middleware';
+import * as util from './util';
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.post(
 
     res.status(201).json({
         message: 'community created succesfully',
+        community: util.constructCommunityResponse(community)
     })
    }
 )

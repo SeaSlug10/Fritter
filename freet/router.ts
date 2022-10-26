@@ -106,7 +106,9 @@ router.delete(
  *
  * @name PUT /api/freets/:id
  *
- * @param {string} content - the new content for the freet
+ * @param {string} content - the new content for the freet, if owner is modifying
+ * @param {string} user - user who is upvoting or downvoting
+ * @param {string} vote - how the user is voting, if changing vote
  * @return {FreetResponse} - the updated freet
  * @throws {403} - if the user is not logged in or not the author of
  *                 of the freet
@@ -119,6 +121,20 @@ router.put(
   [
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.content !== undefined){
+      next();
+      return;
+    }
+    const freet = await FreetCollection.updateOneVote(req.params.freetId, req.session.userId, req.body.vote);
+    res.status(200).json({
+      message: 'You have successfully voted on this freet',
+      freet: util.constructFreetResponse(freet)
+    })
+  },
+
+  [
     freetValidator.isValidFreetModifier,
     freetValidator.isValidFreetContent
   ],

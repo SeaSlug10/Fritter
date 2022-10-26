@@ -38,6 +38,7 @@ const formsAndHandlers = {
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
   'edit-freet': editFreet,
+  'vote-freet': editFreet,
   'delete-freet': deleteFreet,
   'create-community' : createCommunity,
   'delete-community' : deleteCommunity

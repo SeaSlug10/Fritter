@@ -79,6 +79,49 @@ class FreetCollection {
   }
 
   /**
+   * Update a freet with an upvote or downvote
+   * 
+   * @param {string} freetId - the id fo the freet to be updated
+   * @param {string} user - user who is voting
+   * @param {string} vote - whether upvoting or downvoting, if undefined remove any vote from user
+   * 
+   * @return {Promise<HydratedDocument<Freet>>} - the updated freet
+   */
+  static async updateOneVote(freetId: Types.ObjectId | string, user: string, vote: string): Promise<HydratedDocument<Freet>>{
+    const freet = await FreetModel.findOne({_id: freetId});
+    //if no vote, try to remove user's current vote
+    if (vote === "no vote"){
+      if (freet.upvoters.includes(user)){
+        const index = freet.upvoters.indexOf(user);
+        freet.upvoters.splice(index, 1);
+      } else if (freet.downvoters.includes(user)){
+        const index = freet.downvoters.indexOf(user);
+        freet.downvoters.splice(index, 1);
+      }
+    //if vote is upvote, add user to upvotes if not already there, and remove from downvoters if applicable
+    } else if (vote === 'upvote') {
+      if (!freet.upvoters.includes(user)){
+        freet.upvoters.push(user);
+      }
+      if (freet.downvoters.includes(user)){
+        const index = freet.downvoters.indexOf(user);
+        freet.downvoters.splice(index, 1);
+      }
+    } else {
+      if (!freet.downvoters.includes(user)){
+        freet.downvoters.push(user);
+      }
+      if (freet.upvoters.includes(user)){
+        const index = freet.upvoters.indexOf(user);
+        freet.upvoters.splice(index, 1);
+      }
+    }
+    freet.dateModified = new Date();
+    await freet.save();
+    return freet.populate('authorId')
+  }
+
+  /**
    * Delete a freet with given freetId.
    *
    * @param {string} freetId - The freetId of freet to delete

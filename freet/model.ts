@@ -16,6 +16,8 @@ export type Freet = {
   content: string;
   dateModified: Date;
   anonymous: string;
+  upvoters: [string];
+  downvoters: [string];
 };
 
 export type PopulatedFreet = {
@@ -25,6 +27,8 @@ export type PopulatedFreet = {
   content: string;
   dateModified: Date;
   anonymous: string;
+  upvoters: [string];
+  downvoters: [string];
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -59,6 +63,18 @@ const FreetSchema = new Schema<Freet>({
     type: String,
     required: false
   },
+
+  //users who upvoted
+  upvoters: {
+    type: [String],
+    required: false
+  },
+
+  //users who downvoted
+  downvoters: {
+    type: [String],
+    required: false
+  }
 
 });
 
