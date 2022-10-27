@@ -176,6 +176,27 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
 };
 
 /**
+ * Checks if a user with userId as friendsOf id in req.query exists
+ */
+ const isFriendsOfExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.query.author === undefined && !req.query.friendsOf) {
+    res.status(400).json({
+      error: 'Provided friendsOf username must be nonempty.'
+    });
+    return;
+  }
+
+  const user = await UserCollection.findOneByUsername(req.query.friendsOf as string);
+  if (!user) {
+    res.status(404).json({
+      error: `A user with username ${req.query.friendsOf as string} does not exist.`
+    });
+    return;
+  }
+
+  next();
+};
+/**
  * Checks if a friendId is not the same as the user's id
  */
 const isFriendDifferentThanUser = async(req: Request, res: Response, next: NextFunction) => {
@@ -202,5 +223,6 @@ export {
   isAuthorExists,
   isValidUsername,
   isValidPassword,
-  isFriendDifferentThanUser
+  isFriendDifferentThanUser,
+  isFriendsOfExists
 };

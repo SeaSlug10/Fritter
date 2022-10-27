@@ -29,13 +29,26 @@ router.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if authorId query parameter was supplied
-    if (req.query.author !== undefined) {
+    if (req.query.friendsOf !== undefined || req.query.author !== undefined) {
       next();
       return;
     }
 
     const allFreets = await FreetCollection.findAll();
     const response = allFreets.map(util.constructFreetResponse);
+    res.status(200).json(response);
+  },
+  [
+    userValidator.isFriendsOfExists
+  ],
+  async (req:Request, res: Response, next: NextFunction) => {
+    if (req.query.author !== undefined) {
+      next();
+      return;
+    }
+
+    const friendFreets = await FreetCollection.findFriendFreets(req.query.friendsOf as string);
+    const response = friendFreets.map(util.constructFreetResponse);
     res.status(200).json(response);
   },
   [

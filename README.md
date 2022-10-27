@@ -345,11 +345,11 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `GET /api/freets?userId=user` - Get feed of posts for user
+#### `GET /api/freets?friendsOf=user` - Get feed of posts for user
 
 **Returns**
 
-- An array of freets comprising the feed for the user
+- An array of freets comprising the posts fromt the user's friends
 
 **Throws**
 

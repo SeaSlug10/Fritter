@@ -64,6 +64,23 @@ class FreetCollection {
   }
 
   /**
+   * Get freets from friends for user
+   * 
+   * @param {string} userId - the user to get feed for
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of the freets
+   */
+  static async findFriendFreets(userId: string): Promise<Array<HydratedDocument<Freet>>> {
+    const user = await UserCollection.findOneByUsername(userId);
+    const friendPosts: Array<HydratedDocument<Freet>> = [];
+    for (let friendname of user.friends){
+      console.log(friendname)
+      const friendFreets = await this.findAllByUsername(friendname);
+      friendPosts.concat(friendFreets);
+    }
+    return friendPosts;
+  }
+
+  /**
    * Update a freet with the new content
    *
    * @param {string} freetId - The id of the freet to be updated
