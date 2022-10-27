@@ -314,45 +314,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `POST /api/communities ` - Create a new community
 
-**Body** 
-
-- `name` _{string}_ - the name of the community to be created
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not logged in
-- `409` if the community name already exists 
-
-#### `DELETE /api/communities/:commId? ` - Delete community
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not the owner of the community 
-
-
-#### `GET /api/freets?community=NAME` - Get freets by community
-
-**Returns**
-
-- An array of freets in community with name `name`
-
-**Throws**
-
-- `400` if `name` is not given
-- `404` if `name` is not a recognized name of any community
-
-
-#### `PUT /api/friends` - Update a user's friends
+#### `PUT /api/users?friend=id` - Update a user's friends
 
 **Body** 
 
@@ -365,33 +328,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if `username` is not the name of a different user
-
-#### `DELETE /api/friends` - Remove friend from user
-
-**Body** 
-
-- `username` _{string}_ - The username of the friend to be removed
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if user is not logged in
-- `404` if `username` is not a in user's friends list
-
-#### `GET /api/freets?friendsof=USERNAME` - Get freets by friends of user
-
-**Returns**
-
-- An array of freets by users who `username` is freinds with
-
-**Throws**
-
-- `400` if `username` is not given
-- `404` if `name` is not a recognized name of any community
+- `404` if `username` is not the name of a real, different, user
 
 #### `PUT /api/freets/:freetId?` - Update a post's rating
 
@@ -408,7 +345,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `GET /api/feed/:userId?` - Get feed of posts for user
+#### `GET /api/freets?userId=user` - Get feed of posts for user
 
 **Returns**
 

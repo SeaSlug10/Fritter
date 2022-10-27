@@ -38,3 +38,9 @@ function signOut() {
     .then(showResponse)
     .catch(showResponse);
 }
+
+function editFriend(fields) {
+  fetch(`/api/users?friend=${fields.friend}`, {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}

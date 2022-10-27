@@ -43,7 +43,7 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
-    const response = authorFreets.map(util.constructFreetResponse);
+    const response = authorFreets.filter((freet) => freet.anonymous !== "on").map(util.constructFreetResponse);
     res.status(200).json(response);
   }
 );
