@@ -18,7 +18,7 @@ function viewFreetsByAuthor(fields) {
 }
 
 function viewFreetsByFriendsOf(fields) {
-  fetch(`/api/freets?friendsOf=${fields.friendsOf}`)
+  fetch(`/api/freets?author=${fields.friendsOf}?friends=on`)
     .then(showResponse)
     .catch(showResponse);
 }

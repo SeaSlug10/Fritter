@@ -4,6 +4,8 @@ import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import UserCollection from '../user/collection';
+import { HydratedDocument } from 'mongoose';
 
 const router = express.Router();
 
@@ -39,25 +41,24 @@ router.get(
     res.status(200).json(response);
   },
   [
-    userValidator.isFriendsOfExists
-  ],
-  async (req:Request, res: Response, next: NextFunction) => {
-    if (req.query.author !== undefined) {
-      next();
-      return;
-    }
-
-    const friendFreets = await FreetCollection.findFriendFreets(req.query.friendsOf as string);
-    const response = friendFreets.map(util.constructFreetResponse);
-    res.status(200).json(response);
-  },
-  [
     userValidator.isAuthorExists
   ],
   async (req: Request, res: Response) => {
-    const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
-    const response = authorFreets.filter((freet) => freet.anonymous !== "on").map(util.constructFreetResponse);
-    res.status(200).json(response);
+    if (req.query.friends){
+      const author = await UserCollection.findOneByUsername(req.query.author as string);
+      const authorFriends = author.friends;
+      const allFriendFreets = [];
+      for (let friend of authorFriends){
+        let friendFreets = await FreetCollection.findAllByUsername(friend);
+        allFriendFreets.push(friendFreets.filter((freet) => freet.anonymous !== "on").map(util.constructFreetResponse));
+      }
+      res.status(200).json(allFriendFreets);
+    } else {
+      const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
+      const response = authorFreets.filter((freet) => freet.anonymous !== "on").map(util.constructFreetResponse);
+      res.status(200).json(response);
+    }
+
   }
 );
 
